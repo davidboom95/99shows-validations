@@ -2,7 +2,7 @@
 .container.mx-auto.w-full(style="max-width: 800px;")
   .video-wrapper.w-full.relative
     video#videoBG(
-      poster="video.webm"
+      poster="video.webp"
       ref="video"
       playsinline
       autoplay
@@ -94,6 +94,9 @@ input, select {
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 200px rgba(255, 255, 255, 0.5);
   color: black;
   border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 video,
 picture {
