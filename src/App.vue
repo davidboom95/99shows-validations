@@ -11,22 +11,26 @@
         source(src="video.webp" type="video/webp")
         img(src="video.mp4" type="video/mp4")
     .video-overlay.absolute.inset-0
-  form#lead-form.mx-auto.w-64(style="max-width:700px;")
-    img.mx-auto.w-16.z-50(src="logo.svg")
-    h1.text-white.z-50.text-3xl.font-bold compra y vende
-    h2.text-xl.text-white.oswald.z-50
+  form#lead-form.mx-auto.w-64.z-20(autocomplete="on" @submit.prevent style="max-width:700px;")
+    img.mx-auto.w-32.z-50.rounded-full.shadow-lg(src="logo.svg")
+    h1.z-50.text-3xl.font-bold compra y vende
+    h2.text-xl.oswald.z-50
       p PRODUCCIONES
       p LETRAS
       p BEATS
       p MASTERS
-    .z-50(v-if="!registered" style="padding: 1px; background: radial-gradient(ellipse at 45px 100%, gray 40%, black);")
-      input.h-full.w-full.bg-black(v-model="email" type="email" placeholder="Email")
-      input.h-full.w-full.bg-black(v-model="name" type="nombre" placeholder="Nombre")
-      input.h-full.w-full.bg-black(v-model="phone" type="phone" placeholder="Teléfono")
+    div(style="display:grid; gap:1rem;" v-if="!registered")
+      input.h-full.w-full.p-4.bg-gray-200(v-model="email" required="true" type="email" placeholder="Email")
+      input.h-full.w-full.p-4.bg-gray-200(v-model="name" required="true" type="nombre" placeholder="Nombre")
+      select.h-full.w-full.p-4.bg-gray-200.text-black(v-model="role")
+        option(:value="null" disabled) Selecciona
+        option(value="compositor") Compositor
+        option(value="productor") Productor
+        option(value="interprete") Interprete
     .z-50.bg-green-500.text-green-100.font-bold.text-xl(v-else) Registrado
-    .bg-red-600.text-white.font-bold(v-if="error") {{error}}
+    .bg-red-600.font-bold.text-white.rounded-full.p-2.text-center(v-if="error") {{error}}
     button.text-white.z-50(v-if="!registered" @click="submit" type="submit") Pre-registro
-  .spotlights.fixed.inset-0
+  .spotlights.fixed.inset-0s
   .h-32
 </template>
 <script>
@@ -38,32 +42,28 @@ export default {
     email: "",
     name: "",
     phone: "",
+    role: null,
     error: "",
     registered: false,
   }),
   methods: {
     submit(e) {
       e.preventDefault();
-      const { email, name, phone } = this;
-      if (!email || !name || !phone) {
-        this.error = "Debes llenar los datos 👆";
-        return;
-      }
       firebase
         .firestore()
         .collection("leads")
         .add({
           email: this.email,
           name: this.name,
-          phone: this.phone
+          role: this.role
         })
-        .then(res => this.registered = true)
+        .then(() => this.registered = true)
         .catch(console.log);
     }
   },
 };
 </script>
-<style>
+<style scoped>
 body {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -80,6 +80,7 @@ button {
   outline: none;
 }
 #lead-form {
+  color: #B00AEA;
   display: grid;
   grid-gap: 1.5rem;
   margin-top: -15vw;
@@ -88,10 +89,9 @@ button {
 #videoBG {
   z-index: -1;
 }
-input {
-  background: rgb(255, 255, 255, 0.1);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 200px rgba(255, 255, 255, 0.5);
-  color: white;
+input, select {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 200px rgba(255, 255, 255, 0.5);
+  color: black;
   border-radius: 0;
 }
 video,
@@ -105,10 +105,11 @@ button {
   text-shadow: 0 1px 2px black;
 }
 .video-overlay {
-  background: radial-gradient(transparent, black 70%),
-    linear-gradient(black 10%, transparent 20%, transparent 70%, black 80%);
+  background: radial-gradient(ellipse, transparent, white 70%),
+    linear-gradient(white 10%, transparent 20%, transparent 70%, white 80%);
 }
 .spotlights {
+  pointer-events: none;
   background: linear-gradient(
       to left bottom,
       transparent 500px,
