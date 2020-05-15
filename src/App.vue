@@ -2,14 +2,15 @@
 .container.mx-auto.w-full(style="max-width: 800px;")
   .video-wrapper.w-full.relative
     video#videoBG(
+      poster="video.webm"
       ref="video"
       playsinline
       autoplay
       loop 
       muted)
-        source(src="video.webm" type="video/webm")
-        source(src="video.webp" type="video/webp")
-        img(src="video.mp4" type="video/mp4")
+        source(src="/video.webm" type="video/webm")
+        source(src="/video.webp" type="video/webp")
+        img(src="/video.mp4" type="video/mp4")
     .video-overlay.absolute.inset-0.pointer-events-none
   form#lead-form.mx-auto.w-64.z-20(autocomplete="on" @submit.prevent style="max-width:700px;")
     img.mx-auto.w-32.z-50.rounded-full.shadow-lg(src="logo.svg")
