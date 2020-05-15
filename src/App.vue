@@ -1,5 +1,5 @@
 <template lang="pug">
-.container.mx-auto.w-full(style="max-width: 800px;")
+.container.mx-auto.w-full
   .video-wrapper.w-full.relative
     video#videoBG(
       poster="video.webp"
@@ -8,10 +8,9 @@
       autoplay
       loop 
       muted)
-        source(src="/video.webm" type="video/webm")
-        source(src="/video.webp" type="video/webp")
-        img(src="/video.mp4" type="video/mp4")
+        source(src="/video.mp4" type="video/mp4")
     .video-overlay.absolute.inset-0.pointer-events-none
+  iframe.mx-auto(src="https://www.youtube.com/embed/XN__amlPVGo?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
   form#lead-form.mx-auto.w-64.z-20(autocomplete="on" @submit.prevent style="max-width:700px;")
     img.mx-auto.w-32.z-50.rounded-full.shadow-lg(src="logo.svg")
     h1.z-50.text-3xl.font-bold compra y vende
@@ -84,7 +83,6 @@ button {
   color: #B00AEA;
   display: grid;
   grid-gap: 1.5rem;
-  margin-top: -15vw;
   z-index: 99999 !important;
 }
 #videoBG {
